@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blood Donation Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+            text-align: center;
+            padding: 20px;
+        }
+        .box {
+            background: white;
+            padding: 20px;
+            margin: 10px auto;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            width: 90%;
+        }
+        button {
+            background: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .donor {
+            background: #ffe5e5;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>🩸 Blood Donation Finder</h2>
+
+    <!-- Add Donor -->
+    <div class="box">
+        <h3>Add Donor</h3>
+        <input type="text" id="name" placeholder="Name">
+        <input type="text" id="bloodType" placeholder="Blood Type (e.g., A+, O-)">
+        <input type="text" id="contact" placeholder="Contact">
+        <input type="text" id="city" placeholder="City">
+        <button onclick="addDonor()">Add Donor</button>
+    </div>
+
+    <!-- Search Donor -->
+    <div class="box">
+        <h3>Find Donor</h3>
+        <input type="text" id="searchBloodType" placeholder="Blood Type">
+        <input type="text" id="searchCity" placeholder="City">
+        <button onclick="findDonors()">Search</button>
+        <div id="results"></div>
+    </div>
+
+<script>
+    let donors = [];
+
+    function addDonor() {
+        let donor = {
+            name: document.getElementById("name").value,
+            bloodType: document.getElementById("bloodType").value.toUpperCase(),
+            contact: document.getElementById("contact").value,
+            city: document.getElementById("city").value.toLowerCase()
+        };
+
+        donors.push(donor);
+        alert("Donor added successfully!");
+
+        document.getElementById("name").value = "";
+        document.getElementById("bloodType").value = "";
+        document.getElementById("contact").value = "";
+        document.getElementById("city").value = "";
+    }
+
+    function findDonors() {
+        let bloodType = document.getElementById("searchBloodType").value.toUpperCase();
+        let city = document.getElementById("searchCity").value.toLowerCase();
+
+        let results = donors.filter(d => d.bloodType === bloodType && d.city === city);
+
+        let resultDiv = document.getElementById("results");
+        resultDiv.innerHTML = "";
+
+        if (results.length === 0) {
+            resultDiv.innerHTML = "<p>No donors found</p>";
+        } else {
+            results.forEach(d => {
+                resultDiv.innerHTML += `
+                    <div class="donor">
+                        <b>${d.name}</b> - ${d.bloodType} <br>
+                        📞 ${d.contact} <br>
+                        📍 ${d.city}
+                    </div>
+                `;
+            });
+        }
+    }
+</script>
+
+</body>
+</html>
